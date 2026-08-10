@@ -34,7 +34,7 @@ def load_analyzer():
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title  = "Apex Markets Terminal",
+    page_title  = "Apex Markets Terminal[YFINANCE-DATA]",
     page_icon   = "📈",
     layout      = "wide",
     initial_sidebar_state = "expanded",
