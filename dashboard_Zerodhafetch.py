@@ -227,7 +227,7 @@ with col_title:
     <div class="dash-header">
       <img src="data:image/png;base64,""" + _LOGO_B64 + """" style="height:56px;width:auto" />
       <div>
-        <div class="dash-title">Apex Markets Terminal</div>
+        <div class="dash-title">Apex Markets Terminal [YFINANCE-DATA] </div>
         <div class="dash-sub"> Composite Signals: RSI · Stochastic · Bollinger · Volume</div>
       </div>
     </div>""", unsafe_allow_html=True)
