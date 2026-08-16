@@ -232,7 +232,7 @@ def detect_stochastic_divergence(df, window=20):
     return df
 
 
-def calculate_wma(series, window=41):
+def calculate_wma(series, window=31):
     weights = np.arange(1, window + 1, dtype=float)
     denom   = weights.sum()
     arr     = series.to_numpy(dtype=float)
@@ -243,7 +243,7 @@ def calculate_wma(series, window=41):
     return pd.Series(out, index=series.index)
 
 
-def calculate_lsma(series, window=46):
+def calculate_lsma(series, window=36):
     n   = window
     arr = series.to_numpy(dtype=float)
     out = np.full(len(arr), np.nan)
