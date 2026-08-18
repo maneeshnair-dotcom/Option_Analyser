@@ -553,8 +553,8 @@ def process_ticker_df(df: pd.DataFrame, ticker: str, requested_interval: str,
     df["Resistance_Support_Gap"] = gap_vals
 
     diff = df["LSMA-WMA"]
-    df["Diff_Peak"]   = ((diff < diff.shift(1)) & (diff.shift(1) > diff.shift(2))).map({True: "Short", False: ""})
-    df["Diff_Trough"] = ((diff > diff.shift(1)) & (diff.shift(1) < diff.shift(2))).map({True: "LONG", False: ""})
+    df["Diff_Peak"]   = ((diff < diff.shift(1)) & (diff.shift(1) > diff.shift(2))&(diff.shift(2) >  diff.shift(3))).map({True: "Short",  False: ""})
+    df["Diff_Trough"] = ((diff > diff.shift(1)) & (diff.shift(1) < diff.shift(2))&(diff.shift(2) < diff.shift(3))).map({True: "LONG", False: ""})
 
     df = calculate_composite_signal(df, buy_threshold=buy_threshold, sell_threshold=sell_threshold)
     return df
