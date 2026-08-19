@@ -573,7 +573,7 @@ def fetch_nifty50_data(n_days: int = 30, interval: str = "1d",
     """
     tickers = ticker_list if ticker_list is not None else NIFTY50_TICKERS
     requested_interval = interval
-    yf_tickers = [t + ".NS" for t in tickers]
+    yf_tickers = tickers
     fetch_interval = "1h" if interval == "4h" else ("1d" if interval == "1wk" else interval)
 
     print(f"Downloading {len(yf_tickers)} tickers in one batched call "
