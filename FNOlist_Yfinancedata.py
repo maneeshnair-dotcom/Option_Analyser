@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Aug 19 09:02:13 2026
+
+@author: Maneesh
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Ultimate Nifty 50 Analyzer with Multiple Technical Indicators (Optimized)
 
 Key optimizations vs the original:
@@ -507,7 +514,7 @@ def process_ticker_df(df: pd.DataFrame, ticker: str, requested_interval: str,
     """Applies every indicator (unchanged from the original script) to one
     ticker's OHLCV dataframe."""
     df = df.reset_index(drop=True)
-    #df["Stock Name"] = ticker.replace(".NS", "").replace(".BO", "").replace("^", "")
+    df["Stock Name"] = ticker.replace(".NS", "").replace(".BO", "").replace("^", "")
     df["Interval"]   = requested_interval
     df["Return"]     = df["CLOSE"].diff().round(2)
 
