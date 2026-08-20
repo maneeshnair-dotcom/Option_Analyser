@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 19 09:02:13 2026
-
-@author: Maneesh
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Ultimate Nifty 50 Analyzer with Multiple Technical Indicators (Optimized)
 
 Key optimizations vs the original:
@@ -127,10 +120,10 @@ def get_active_list_name(tickers) -> str:
 
 # ── Watchlist of tickers to highlight SKY BLUE in the "Stock Name" column
 SKYBLUE_TICKERS = {
-    "EICHERMOT.NS", "HEROMOTOCO.NS", "SHRIRAMFIN.NS", "TATACONSUM.NS", "INDUSINDBK.NS",
-    "JSWSTEEL.NS", "BPCL.NS", "DIVISLAB.NS", "APOLLOHOSP.NS", "NESTLEIND.NS", "BAJAJ-AUTO.NS",
-    "CIPLA.NS", "WIPRO.NS", "ADANIENT.NS", "ONGC.NS", "COALINDIA.NS", "HINDALCO.NS", "GRASIM.NS",
-    "DRREDDY.NS", "BRITANNIA.NS", "SBILIFE.NS", "HDFCLIFE.NS",
+    "EICHERMOT", "HEROMOTOCO", "SHRIRAMFIN", "TATACONSUM", "INDUSINDBK",
+    "JSWSTEEL", "BPCL", "DIVISLAB", "APOLLOHOSP", "NESTLEIND", "BAJAJ-AUTO",
+    "CIPLA", "WIPRO", "ADANIENT", "ONGC", "COALINDIA", "HINDALCO", "GRASIM",
+    "DRREDDY", "BRITANNIA", "SBILIFE", "HDFCLIFE",
 }
 
 
@@ -489,15 +482,9 @@ def save_excel_with_colors(df: pd.DataFrame, filepath: str) -> None:
 
 
 # ── yfinance data source ──────────────────────────────────────────────────
-# Every ticker in the FnO list is fetched as "<TICKER>.NS" via yfinance.
-# Note: this suffix is only correct for plain NSE equities. Indices
-# (NIFTY, BANKNIFTY, SENSEX...), currency pairs (EURINR...), and commodities
-# (GOLD, CRUDEOIL...) do NOT actually resolve on Yahoo Finance as
-# "<NAME>.NS" — Yahoo uses different conventions for those (e.g. "^NSEI" for
-# Nifty, "EURINR=X" for currency pairs, "GC=F" for gold futures). Those
-# names will come back empty from yfinance with this suffix; flagging this
-# now rather than silently masking it — let me know if you want proper
-# Yahoo symbols mapped in for the non-equity names.
+# Every ticker in the FnO list already has its correct Yahoo suffix baked in
+# (".NS" for equities, "^..." for indices) — see the FnO list definition
+# above. Do NOT append ".NS" again here.
 def resample_ohlcv(df: pd.DataFrame, rule: str) -> pd.DataFrame:
     """Roll finer OHLCV candles into coarser ones (used for 4h and 1wk,
     neither of which yfinance returns natively for NSE data)."""
@@ -568,9 +555,8 @@ def fetch_nifty50_data(n_days: int = 30, interval: str = "1d",
                         ticker_list=None) -> pd.DataFrame:
     """
     ticker_list: optional list of tickers to fetch. Defaults to the FnO list
-    (NIFTY50_TICKERS = FnO). Each ticker is fetched from yfinance as
-    "<TICKER>.NS" (see the module-level note above on which names this
-    suffix is actually correct for).
+    (NIFTY50_TICKERS = FnO). Every entry is used AS-IS (already has its
+    correct Yahoo suffix baked in — see the FnO list definition above).
 
     interval: yfinance-native intervals ("15m","30m","1h","1d") are passed
     straight through. "4h" and "1wk" are fetched as "1h"/"1d" respectively
@@ -580,7 +566,7 @@ def fetch_nifty50_data(n_days: int = 30, interval: str = "1d",
     """
     tickers = ticker_list if ticker_list is not None else NIFTY50_TICKERS
     requested_interval = interval
-    yf_tickers = tickers
+    yf_tickers = list(tickers)   # already correctly suffixed — do not modify
     fetch_interval = "1h" if interval == "4h" else ("1d" if interval == "1wk" else interval)
 
     print(f"Downloading {len(yf_tickers)} tickers in one batched call "
