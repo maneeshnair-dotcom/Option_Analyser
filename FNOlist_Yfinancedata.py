@@ -145,7 +145,7 @@ def calculate_stochastic(df, k_window=12, d_window=5):
     return k.rename('Stoch_K'), d.rename('Stoch_D')
 
 
-def calculate_bollinger_bands(series, window=20, std_dev=2):
+def calculate_bollinger_bands(series, window=14, std_dev=1.8):
     middle = series.rolling(window).mean()
     std    = series.rolling(window).std()
     upper  = middle + std_dev * std
@@ -227,7 +227,7 @@ def detect_stochastic_divergence(df, window=20):
     return df
 
 
-def calculate_wma(series, window=31):
+def calculate_wma(series, window=21):
     weights = np.arange(1, window + 1, dtype=float)
     denom   = weights.sum()
     arr     = series.to_numpy(dtype=float)
@@ -238,7 +238,7 @@ def calculate_wma(series, window=31):
     return pd.Series(out, index=series.index)
 
 
-def calculate_lsma(series, window=36):
+def calculate_lsma(series, window=26):
     n   = window
     arr = series.to_numpy(dtype=float)
     out = np.full(len(arr), np.nan)
